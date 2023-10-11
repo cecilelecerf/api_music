@@ -30,10 +30,6 @@ exports.createAMusic =  async(req, res) => {
     }
 }
 
-
-
-
-
 // req.params.id_params
 exports.listenMusic = async (req,res) => {
     try{
