@@ -99,10 +99,14 @@ exports.deleteAVote = async (req,res) => {
 
 exports.resultVote = async (req,res) => {
     try{
-        const result = await Vote.find({music_id : req.params.id_music});
-        const number = result.length
+        const allVotes = await Vote.find({music_id : req.params.id_music});
+        console.log(allVotes);
+        let result = 0;
+        allVotes.forEach((vote)=>{
+            result += vote.level;
+        })
         res.status(200);
-        res.json({message : number});
+        res.json({message : result});
     }catch (error) {
         res.status(500);
         res.json({message : "Error server"});
