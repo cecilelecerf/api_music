@@ -13,4 +13,7 @@ router
         .put(voteController.updateAVote)
         .delete(voteController.deleteAVote);
 
+router
+    .route("/music/:id_music/result")
+        .get(voteController.resultVote);
 module.exports = router;
