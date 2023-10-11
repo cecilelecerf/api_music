@@ -10,7 +10,7 @@ router
 router  
     .route('/:id_music')
         .delete(musicController.deleteAMusic)
-        .put(musicController.putAMusic)
+        .put(musicController.updateAMusic)
         .get(musicController.listenMusic);
 
 module.exports = router;
