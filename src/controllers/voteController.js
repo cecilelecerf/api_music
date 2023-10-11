@@ -22,23 +22,28 @@ exports.createAVote = async (req,res) => {
     try{
         const music = await Music.findById(req.params.id_music);
         const newVote = new Vote({...req.body, music_id : req.params.id_music});
-        // console.log(typeof(req.body.level));
-        // console.log(music.created_at);
-        // let date = new Date.toISOString();
-        // date = date.toISOString();
-        // const number = parseInt(req.body.level)
-        // console.log(typeof(req.body.level));
-        // console.log(number);
-        // console.log(Number.isInteger(req.body.level));
-        // console.log(Date.now.toISOString());
-        try{
-            const vote = await newVote.save();
-            res.status(201);
-            res.json(vote);
-        } catch (error) {
-            res.status(500);
-            res.json({message : "Error server (db)"});
-            console.log(error);
+        const musicDate = new Date(music.created_at);
+        const voteDate = new Date(newVote.created_at);
+        let endDate = new Date(musicDate);
+        endDate.setDate(musicDate.getDate() +1);
+        endDate.setHours(9,0,0);
+        let startDate = new Date(musicDate);
+        startDate.setHours(9,0,0);
+        if(startDate < voteDate && voteDate < endDate){
+
+            try{
+                const vote = await newVote.save();
+                res.status(201);
+                res.json(vote);
+            } catch (error) {
+                res.status(500);
+                res.json({message : "Error server (db)"});
+                console.log(error);
+            }
+        }
+        else{
+            res.status(400);
+            res.json({message: "the time is not good"});
         }
         
     } catch (error){
