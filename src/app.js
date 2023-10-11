@@ -14,7 +14,7 @@ app.use(express.urlencoded());
 app.use(express.json());
 
 const musicRoute = require('./routes/musicRoute');
-app.use('/music', musicRoute);
+app.use('/musique', musicRoute);
 
 const voteRoute = require('./routes/voteRoute');
 app.use('/', voteRoute);

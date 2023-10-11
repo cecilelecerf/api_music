@@ -3,7 +3,7 @@ const router = express.Router();
 const voteController = require('../controllers/voteController');
 
 router
-    .route("/music/:id_music/votes")
+    .route("/musiques/:id_musique/votes")
         .get(voteController.listenAllVotes)
         .post(voteController.createAVote);
 
@@ -14,6 +14,6 @@ router
         .delete(voteController.deleteAVote);
 
 router
-    .route("/music/:id_music/result")
+    .route("/musiques/:id_musique/result")
         .get(voteController.resultVote);
 module.exports = router;
