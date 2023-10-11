@@ -20,17 +20,32 @@ exports.listenAllVotes = async (req,res) => {
 
 exports.createAVote = async (req,res) => {
     try{
-        await Music.findById(req.params.id_music);
+        const music = await Music.findById(req.params.id_music);
         const newVote = new Vote({...req.body, music_id : req.params.id_music});
-        try{
-            const vote = await newVote.save();
-            res.status(201);
-            res.json(vote);
-        } catch (error) {
-            res.status(500);
-            res.json({message : "Error server (db)"});
-            console.log(error);
+        const musicDate = new Date(music.created_at);
+        const voteDate = new Date(newVote.created_at);
+        let endDate = new Date(musicDate);
+        endDate.setDate(musicDate.getDate() +1);
+        endDate.setHours(9,0,0);
+        let startDate = new Date(musicDate);
+        startDate.setHours(9,0,0);
+        if(startDate < voteDate && voteDate < endDate){
+
+            try{
+                const vote = await newVote.save();
+                res.status(201);
+                res.json(vote);
+            } catch (error) {
+                res.status(500);
+                res.json({message : "Error server (db)"});
+                console.log(error);
+            }
         }
+        else{
+            res.status(400);
+            res.json({message: "the time is not good"});
+        }
+        
     } catch (error){
         res.status(500);
         res.json({message : "Error server (music_id)"});
@@ -74,6 +89,20 @@ exports.deleteAVote = async (req,res) => {
         res.status(200);
         res.json(vote);
     } catch (error) {
+        res.status(500);
+        res.json({message : "Error server"});
+        console.log(error);
+    }
+}
+
+
+exports.resultVote = async (req,res) => {
+    try{
+        const result = await Vote.find({music_id : req.params.id_music});
+        const number = result.length
+        res.status(200);
+        res.json({message : number});
+    }catch (error) {
         res.status(500);
         res.json({message : "Error server"});
         console.log(error);
