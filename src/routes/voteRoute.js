@@ -3,7 +3,7 @@ const router = express.Router();
 const voteController = require('../controllers/voteController');
 
 router
-    .route("/musics/:id_music/votes")
+    .route("/music/:id_music/votes")
         .get(voteController.listenAllVotes)
         .post(voteController.createAVote);
 
