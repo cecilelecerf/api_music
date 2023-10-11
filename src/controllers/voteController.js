@@ -22,15 +22,22 @@ exports.createAVote = async (req,res) => {
     try{
         await Music.findById(req.params.id_music);
         const newVote = new Vote({...req.body, music_id : req.params.id_music});
-        try{
-            const vote = await newVote.save();
-            res.status(201);
-            res.json(vote);
-        } catch (error) {
-            res.status(500);
-            res.json({message : "Error server (db)"});
-            console.log(error);
+        console.log(req.body.level);
+        if(req.body.level >= 0 && req.body.level <= 5 && Number.isInteger(req.body.level)){
+            try{
+                    const vote = await newVote.save();
+                    res.status(201);
+                    res.json(vote);
+                } catch (error) {
+                    res.status(500);
+                    res.json({message : "Error server (db)"});
+                    console.log(error);
+                }
+        }else{
+            res.status(422);
+            res.json({message: "Number of level is not a good value"})
         }
+        
     } catch (error){
         res.status(500);
         res.json({message : "Error server (music_id)"});
