@@ -87,6 +87,7 @@ exports.deleteAVote = async (req,res) => {
         if(vote===null)
             nullifiable();
         res.status(204);
+
         res.json(vote);
     } catch (error) {
         res.status(500);
