@@ -42,8 +42,8 @@ exports.createAVote = async (req,res) => {
             }
         }
         else{
-            res.status(400);
-            res.json({message: "the time is not good"});
+            res.status(422);
+            res.json({message: "Voting is not permitted at this time."});
         }
         
     } catch (error){
@@ -86,7 +86,7 @@ exports.deleteAVote = async (req,res) => {
         const vote = await Vote.findByIdAndDelete(req.params.id_vote);
         if(vote===null)
             nullifiable();
-        res.status(200);
+        res.status(204);
         res.json(vote);
     } catch (error) {
         res.status(500);
